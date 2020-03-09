@@ -16,5 +16,19 @@ gamesRouter
 gamesRouter
     .route('/:game_id')
     .get((req, res, next), () => {
-        
+        GamesService.getById(req.app.get('db'))
+            .then(game => {
+                res.json(game)
+            })
+            .catch(next)
+    })
+
+gamesRouter
+    .route('/:user_id')
+    .get((req, res, next), () => {
+        GamesService.getByUserId(req.app.get('db'))
+            .then(games => {
+                res.json(games)
+            })
+            .catch(next)
     })
