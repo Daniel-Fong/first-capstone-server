@@ -4,7 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const helmet=require('helmet');
 const { NODE_ENV } = require('./config');
-const gamesRouter = require('./games/games-router')
+//const gamesRouter = require('./games/games-router')
 const usersRouter = require('./users/users-router')
 const playersRouter = require('./players/players-router')
 
@@ -18,7 +18,12 @@ app.use(morgan(morganOption));
 app.use(helmet());
 app.use(cors());
 
-app.use('/api/games', gamesRouter)
+//static web server
+
+// app.use('/api/games', gamesRouter)
+
+//User Mode Authentication app.use(userMode)
+
 app.use('/api/users', usersRouter)
 app.use('/api/players', playersRouter)
 

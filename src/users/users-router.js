@@ -7,8 +7,10 @@ usersRouter
     .route('/')
     .get((req, res, next), () => {
         UsersService.getAllUsers(req.app.get('db'))
-            .then(user => {
+            .then(users => {
                 res.json(users)
             })
             .catch(next)
     })
+
+module.exports = usersRouter;

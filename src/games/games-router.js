@@ -32,3 +32,5 @@ gamesRouter
             })
             .catch(next)
     })
+
+module.exports = gamesRouter;
