@@ -42,6 +42,15 @@ gamesRouter
                 res.json(game)
             })
             .catch(next)
+    .delete(requireAuth, (reqres, next) => {
+        GamesService.deleteGa(req.app.get('db'), req.params.game_id)
+        .then(numRowsAffected => {
+            res
+                .status(204)
+                .end()
+        })
+        .catch(next)
+    })
     })
 
 gamesRouter

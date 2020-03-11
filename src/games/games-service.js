@@ -24,7 +24,13 @@ const GamesService = {
             .then(rows => {
                 return rows[0]
             })
+    },
 
+    deleteGame(db, id) {
+        return db
+            .from('games')
+            .where({'id': id})
+            .delete()
     },
 };
 
