@@ -5,7 +5,7 @@ const usersRouter = express.Router()
 
 usersRouter
     .route('/')
-    .get((req, res, next), () => {
+    .get((req, res, next) => {
         UsersService.getAllUsers(req.app.get('db'))
             .then(users => {
                 res.json(users)

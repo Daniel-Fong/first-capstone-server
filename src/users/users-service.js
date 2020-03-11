@@ -10,6 +10,6 @@ const UsersService = {
             .where('user.id', id)
             .select('*');
     },
-}
+};
 
 module.exports = UsersService;

@@ -5,7 +5,7 @@ const PlayersService = {
             .select('*');
     },
     
-    getAllPlayersByGameId(db, id) {
+    getPlayersByGameId(db, id) {
         return PlayersService.getAllPlayers(db)
             .where('player.gameid', id)
             .select('*');
@@ -17,6 +17,6 @@ const PlayersService = {
             .where({ id })
             .delete();
     },
-}
+};
 
 module.exports = PlayersService;

@@ -13,9 +13,8 @@ const GamesService = {
 
     getByUserId(db, id) {
         return GamesService.getAllGames(db)
-            .where('game.userid', id)
-            .select('*');
+            .where('game.userid', id);
     },
-}
+};
 
 module.exports = GamesService;

@@ -5,7 +5,7 @@ const playersRouter = express.Router()
 
 playersRouter
     .route('/:game_id')
-    .get((req, res, next), () => {
+    .get((req, res, next) => {
         PlayersService.getPlayersByGameId(req.app.get('db'), req.params.game_id)
             .then(players => {
                 res.json(players)
@@ -15,7 +15,7 @@ playersRouter
 
 playersRouter
     .route('/:player_id')
-    .delete((req, res, next), () => {
+    .delete((req, res, next) => {
         PlayersService.deletePlayerById(req.app.get('db'), req.params.player_id)
             .then(player => {
                 if(!player) {
