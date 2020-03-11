@@ -16,4 +16,10 @@ usersRouter
             .catch(next)
     })
 
+    .post(jsonBodyParser, (req, res, next) => {
+        const { name, password, admin } = req.body
+        const newUser = { name, password, admin }
+        
+    })
+
 module.exports = usersRouter;
