@@ -42,15 +42,20 @@ gamesRouter
                 res.json(game)
             })
             .catch(next)
-    .delete(requireAuth, (reqres, next) => {
-        GamesService.deleteGa(req.app.get('db'), req.params.game_id)
-        .then(numRowsAffected => {
+    .delete(requireAuth, (req, res, next) => {
+        GamesService.deleteGame(req.app.get('db'), req.params.game_id)
+        .then(game => {
+            if(!game) {
+                return res.status(404).json({
+                    error: {message: 'Game does not exist'}
+                })
+            }
             res
                 .status(204)
                 .end()
-        })
-        .catch(next)
+        
     })
+    .catch(next)
     })
 
 gamesRouter
