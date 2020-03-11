@@ -19,7 +19,19 @@ usersRouter
     .post(jsonBodyParser, (req, res, next) => {
         const { name, password, admin } = req.body
         const newUser = { name, password, admin }
-        
+
+        if(!name || !password) {
+            return res 
+                .status(400)
+                .json({ error: {message: 'Name and password required'}})
+        }
+        UsersService.insertUser(req.app.get('db'), newUser)
+            .then(user => {
+                res
+                    .status(201)
+                    .location(path.posix.join(req.originalUrl, `/${user.id}`))
+                    .json(user)
+            })
     })
 
 module.exports = usersRouter;
