@@ -17,6 +17,16 @@ const PlayersService = {
             .where({ id })
             .delete();
     },
+    insertPlayer(db, newPlayer) {
+        return db
+            .insert(newPlayer)
+            .into('players')
+            .returning('*')
+            .then(rows => {
+                return rows[0]
+            })
+
+    },
 };
 
 module.exports = PlayersService;
