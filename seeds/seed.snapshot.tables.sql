@@ -6,36 +6,48 @@ TRUNCATE
     players
     RESTART IDENTITY CASCADE;
 
-INSERT INTO users (name, password, admin)
+INSERT INTO users (id, name, password, admin)
 VALUES
-    ('daniel', 'password', true),
-    ('alfonso', 'pw', false),
-    ('jimmy.john', 'sandwich', false);
+    (1, 'daniel', 'password', true),
+    (2, 'alfonso', 'pw', false),
+    (3, 'jimmy.john', 'sandwich', false);
 
-INSERT INTO games (notes, userid)
+INSERT INTO games (id, notes, userid)
 VALUES
-    ('Heck of a game', 1),
-    ('Heck me this game', 1),
-    ('Hecking game', 2),
-    ('Wow', 2),
-    ('Much game', 1),
-    ('Such a game', 3);
+    (1, 'Catan', 1),
+    (2, 'Oh heck', 1),
+    (3, 'Clank', 2),
+    (4, '7 Wonders', 2),
+    (5, 'Bingo', 1),
+    (6, 'my only game', 3);
 
-INSERT INTO players (gameid, notes)
+INSERT INTO players (id, userid, name, notes)
 VALUES
-    (1, 'Such score'),
-    (1, 'Much wow'),
-    (2, 'Solo oh noes'),
-    (3, 'Trice is nice'),
-    (3, 'Ooooweeee'),
-    (3, 'Such score'),
-    (4, 'just the two of us'),
-    (4, 'but still fun'),
-    (5, 'im winning'),
-    (6, '4 people perfect'),
-    (6, 'great board game group'),
-    (6, 'Such score'),
-    (5, 'no i am'),
-    (6, 'Such score');
+    (1, 1, 'daniel', 'Such score'),
+    (2, 1, 'jenny', 'Much wow'),
+    (3, 2, 'whozit', 'Solo oh noes'),
+    (4, 3, 'willie', 'Trice is nice'),
+    (5, 3, 'marcus', 'I am very good at games'),
+    (6, 3, 'olga', 'Such score'),
+    (7, 1, 'fabian', 'just the two of us'),
+    (8, 2, 'hugo', 'but still fun'),
+    (9, 3, 'christian', 'im winning');
+
+INSERT INTO scores (id, playerid, gameid, score, notes)
+VALUES 
+    (1, 1, 1, 17, 'Sheep galore'),
+    (2, 1, 1, 15, 'this score does not make sense for catan'),
+    (3, 1, 2, 5, 'not going well'),
+    (4, 2, 1, 7, 'losing badly'),
+    (5, 2, 1, 7, 'losing badly'),
+    (6, 2, 2, 90, 'destroying daniel'),
+    (7, 2, 2, 90, 'destroying daniel'),
+    (8, 7, 1, 8, 'dont like catan'),
+    (9, 3, 3, 100, 'got lots of clank treasures'),
+    (10, 3, 4, 35, 'wonderful'),
+    (11, 8, 4, 17, 'kewl'),
+    (12, 8, 4, 17, 'kewl'),
+    (13, 8, 4, 17, 'kewl');
+
 
 COMMIT;
