@@ -1,5 +1,6 @@
 const express = require('express')
 const GamesService = require('./games-service')
+const { requireAuth } = require('../middleware/jwt-auth')
 
 const gamesRouter = express.Router()
 
