@@ -15,6 +15,17 @@ const GamesService = {
         return GamesService.getAllGames(db)
             .where('game.userid', id);
     },
+
+    insertGame(db, newGame) {
+        return db
+            .insert(newGame)
+            .into('games')
+            .returning('*')
+            .then(rows => {
+                return rows[0]
+            })
+
+    },
 };
 
 module.exports = GamesService;

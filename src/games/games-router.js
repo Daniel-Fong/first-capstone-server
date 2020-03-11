@@ -16,6 +16,24 @@ gamesRouter
             .catch(next)
     })
 
+    .post(jsonBodyParser, requireAuth, (req, res, next) => {
+        const { notes, date_modified, userid } = req.body
+        const newGame = {notes, date_modified, userid}
+
+        if(!userid) {
+            return res
+                .status(400)
+                .json({ error: {message: 'User id required'}})
+        }
+        GamesService.insertGame(req.app.get('db'), newGame)
+        .then(game => {
+            res
+                .status(201)
+                .location(path.posix.join(req.originalUrl, `/${game.id}`))
+                .json(game)
+        })
+    })
+
 gamesRouter
     .route('/:game_id')
     .get(requireAuth, (req, res, next) => {
