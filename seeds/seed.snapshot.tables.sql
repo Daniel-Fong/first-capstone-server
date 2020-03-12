@@ -8,9 +8,9 @@ TRUNCATE
 
 INSERT INTO users (id, name, password, admin)
 VALUES
-    (1, 'daniel', 'password', true),
-    (2, 'alfonso', 'pw', false),
-    (3, 'jimmy.john', 'sandwich', false);
+    (1, 'daniel', '$2a$12$jcsmpgGgh4oFP6DUZiOQY.QV6.8l2JrYkK94l5lp2d57eewjE/Bca', true),
+    (2, 'alfonso', '$2a$12$r7OLxOxfzVT9GWopEC06a.V6t7f/Hwln3OESfKIBTXvL8CpX4a2lK', false),
+    (3, 'jimmy.john', '$2a$12$vgcZ..fHnKY1MppZoBj4feGTFgioTDGdPgpwMLN5g/kc38L2/QQoi', false);
 
 INSERT INTO games (id, notes, userid)
 VALUES
