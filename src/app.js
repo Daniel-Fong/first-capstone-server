@@ -7,6 +7,8 @@ const { NODE_ENV } = require('./config');
 const gamesRouter = require('./games/games-router')
 const usersRouter = require('./users/users-router')
 const playersRouter = require('./players/players-router')
+const authService = require('./auth/auth-service')
+const authRouter = require('./auth/auth-router')
 
 const app= express();
 
@@ -20,12 +22,14 @@ app.use(cors());
 
 //static web server
 
-app.use('/api/games', gamesRouter)
+app.use(authRouter)
 
+app.use('/api/games', gamesRouter)
 //User Mode Authentication app.use(userMode)
 
 app.use('/api/users', usersRouter)
 app.use('/api/players', playersRouter)
+
 
 app.get('/', (req, res) => {
      res

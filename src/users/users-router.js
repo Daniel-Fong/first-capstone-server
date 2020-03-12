@@ -20,6 +20,12 @@ usersRouter
         const { name, password, admin } = req.body
         const newUser = { name, password, admin }
 
+        if(!newUser) {
+            return res
+                .status(400)
+                .json({ error: {message: 'User required'}})
+        }
+
         if(!name || !password) {
             return res 
                 .status(400)

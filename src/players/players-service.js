@@ -11,6 +11,12 @@ const PlayersService = {
             .select('*');
     },
 
+    getPlayersByUserId(db, id) {
+        return PlayersService.getAllPlayers(db)
+            .where('player.userid', id)
+            .select('*')
+    },
+
     deletePlayerById(db, id) {
         return db
             .from('players')
