@@ -42,6 +42,7 @@ gamesRouter
                 res.json(game)
             })
             .catch(next)
+    })
     .delete(requireAuth, (req, res, next) => {
         GamesService.deleteGame(req.app.get('db'), req.params.game_id)
         .then(game => {
@@ -68,4 +69,4 @@ gamesRouter
             .catch(next)
     })
 
-module.exports = gamesRouter;
+module.exports = gamesRouter

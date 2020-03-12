@@ -16,3 +16,5 @@ scoresRouter
                 .json(scores)
         })
     })
+
+module.exports = scoresRouter
