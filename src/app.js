@@ -1,30 +1,29 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const morgan = require('morgan');
-const helmet=require('helmet');
-const { NODE_ENV } = require('./config');
+require('dotenv').config()
+const express = require('express')
+const cors = require('cors')
+const morgan = require('morgan')
+const helmet = require('helmet')
+const { NODE_ENV } = require('./config')
 const gamesRouter = require('./games/games-router')
 const usersRouter = require('./users/users-router')
 const playersRouter = require('./players/players-router')
-const authService = require('./auth/auth-service')
+// const authService = require('./auth/auth-service')
 const authRouter = require('./auth/auth-router')
 const scoresRouter = require('./scores/scores-router')
 
-const app= express();
+const app= express()
 
 const morganOption = (NODE_ENV === 'production')
   ? 'tiny'
   : 'common';
 
-app.use(morgan(morganOption));
-app.use(helmet());
-app.use(cors());
+app.use(morgan(morganOption))
+app.use(helmet())
+app.use(cors())
 
 //static web server
 
-app.use('api/auth', authRouter)
-
+app.use('/api/auth', authRouter)
 app.use('/api/games', gamesRouter)
 //User Mode Authentication app.use(userMode)
 

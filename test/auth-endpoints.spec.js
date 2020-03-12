@@ -47,12 +47,12 @@ describe('Auth Endpoints', function() {
           })
       })
       })
-      it(`responds 400 'invalid user_name or password' when bad user_name`, () => {
+      it(`responds 400 'invalid name or password' when bad name`, () => {
           const userInvalidUser = { name: 'user-not', password: 'existy' }
           return supertest(app)
             .post('/api/auth/login')
             .send(userInvalidUser)
-            .expect(400, { error: `Incorrect user_name or password` })
+            .expect(400, { error: `Incorrect name or password` })
       })
       it(`responds 200 and JWT auth token using secret when valid credentials`, () => {
         const userValidCreds = {
@@ -60,7 +60,7 @@ describe('Auth Endpoints', function() {
           password: testUser.password,
         }
         const expectedToken = jwt.sign(
-          { user_id: testUser.id }, // payload
+          { userid: testUser.id }, // payload
           process.env.JWT_SECRET,
           {
             subject: testUser.name,
