@@ -52,9 +52,9 @@ playersRouter
     })
 
 playersRouter
-    .route('/:user_id')
+    .route('/')
     .get(requireAuth, (req, res, next) => {
-        PlayersService.getPlayersByUserId(req.app.get('db'), req.params.user_id)
+        PlayersService.getPlayersByUserId(req.app.get('db'), req.user.id)
         .then(players => {
             return res 
                 .status(200)

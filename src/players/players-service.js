@@ -6,8 +6,10 @@ const PlayersService = {
     },
     
     getPlayersByGameId(db, id) {
-        return PlayersService.getAllPlayers(db)
-            .where('player.gameid', id)
+        return(db)
+            .from('players_in_game')
+            .where('players_in_game.gameid', id)
+            .innerJoin('players', 'players.id', '=', 'players_in_game.playerid')
             .select('*');
     },
 
