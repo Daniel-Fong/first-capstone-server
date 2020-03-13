@@ -17,7 +17,7 @@ playersRouter
     })
 
 playersRouter
-    .route('/:player_id')
+    .route('/player/:player_id')
     .delete(requireAuth, (req, res, next) => {
         PlayersService.deletePlayerById(req.app.get('db'), req.params.player_id)
             .then(player => {
