@@ -12,14 +12,14 @@ VALUES
     (2, 'alfonso', '$2a$12$r7OLxOxfzVT9GWopEC06a.V6t7f/Hwln3OESfKIBTXvL8CpX4a2lK', false),
     (3, 'jimmy.john', '$2a$12$vgcZ..fHnKY1MppZoBj4feGTFgioTDGdPgpwMLN5g/kc38L2/QQoi', false);
 
-INSERT INTO games (id, notes, userid)
+INSERT INTO games (id, name, notes, userid)
 VALUES
-    (1, 'Catan', 1),
-    (2, 'Oh heck', 1),
-    (3, 'Clank', 2),
-    (4, '7 Wonders', 2),
-    (5, 'Bingo', 1),
-    (6, 'my only game', 3);
+    (1, 'Catan', 'some notes', 1),
+    (2, 'Oh heck', 'lotta notes', 1),
+    (3, 'Clank', 'important notes', 2),
+    (4, '7 Wonders', 'such notes', 2),
+    (5, 'Bingo', 'much notes', 1),
+    (6, 'my only game', 'wow', 3);
 
 INSERT INTO players (id, userid, name, notes)
 VALUES

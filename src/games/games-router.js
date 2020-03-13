@@ -10,20 +10,24 @@ gamesRouter
     .route('/')
     .get(requireAuth, (req, res, next) => {
         GamesService.getAllGames(req.app.get('db'))
+        // GamesService.getByUserId(req.app.get('db'), req.user.id)
             .then(games => {
+                console.log(games)
                 res.json(games)
             })
             .catch(next)
     })
 
+    //refactor to get rid of userid, use req.user.id instead
     .post(jsonBodyParser, requireAuth, (req, res, next) => {
-        const { notes, date_modified, userid } = req.body
-        const newGame = {notes, date_modified, userid}
+        const { name, notes, date_modified } = req.body
+        const userid = req.user.id
+        const newGame = { name, notes, date_modified, userid }
 
-        if(!userid) {
+        if(!name) {
             return res
                 .status(400)
-                .json({ error: {message: 'User id required'}})
+                .json({ error: {message: 'Name required'}})
         }
         GamesService.insertGame(req.app.get('db'), newGame)
         .then(game => {
@@ -57,16 +61,6 @@ gamesRouter
         
     })
     .catch(next)
-    })
-
-gamesRouter
-    .route('/:user_id')
-    .get(requireAuth, (req, res, next) => {
-        GamesService.getByUserId(req.app.get('db'))
-            .then(games => {
-                res.json(games)
-            })
-            .catch(next)
     })
 
 module.exports = gamesRouter

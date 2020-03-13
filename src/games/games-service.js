@@ -1,7 +1,7 @@
 const GamesService = {
     getAllGames(db) {
         return db
-            .from('games as game')
+            .from('games')
             .select('*');
     },
 
