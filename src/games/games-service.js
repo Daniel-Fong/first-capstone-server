@@ -6,13 +6,17 @@ const GamesService = {
     },
 
     getById(db, id) {
-        return GamesService.getAllGames(db)
+        return db
+            .from('games as game')
+            .select('*')
             .where('game.id', id)
             .first();
     },
 
     getByUserId(db, id) {
-        return GamesService.getAllGames(db)
+        return db
+            .from('games as game')
+            .select('*')
             .where('game.userid', id);
     },
 

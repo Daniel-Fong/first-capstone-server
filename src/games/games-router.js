@@ -9,7 +9,7 @@ const jsonBodyParser = express.json()
 gamesRouter
     .route('/')
     .get(requireAuth, (req, res, next) => {
-        GamesService.getAllGames(req.app.get('db'))
+        GamesService.getByUserId(req.app.get('db'), req.user.id)
         // GamesService.getByUserId(req.app.get('db'), req.user.id)
             .then(games => {
                 console.log(games)
