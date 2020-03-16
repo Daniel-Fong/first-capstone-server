@@ -1,10 +1,20 @@
 const scoresService = {
     getScoresByGameIdAndPlayerId(db, gameId, playerId) {
         return db
-            .from('scores')
+            .from('scores as score')
             .where('score.gameid', gameId)
-            .and('score.playerid', playerId)
+            .andWhere('score.playerid', playerId)
             .select('*')
+    },
+
+    insertScore(db, newScore) {
+        return db
+            .insert(newScore)
+            .into('scores')
+            .returning('*')
+            .then(rows => {
+                return rows[0]
+            })
     },
 }
 

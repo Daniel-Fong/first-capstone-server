@@ -3,7 +3,8 @@ BEGIN;
 TRUNCATE
     users,
     games,
-    players
+    players,
+    players_in_games,
     RESTART IDENTITY CASCADE;
 
 INSERT INTO users (id, name, password, admin)
@@ -33,21 +34,21 @@ VALUES
     (8, 2, 'hugo', 'but still fun'),
     (9, 3, 'christian', 'im winning');
 
-INSERT INTO scores (id, playerid, gameid, playername, score, note)
+INSERT INTO scores (id, playerid, gameid, score, note)
 VALUES 
-    (1, 1, 1, 'daniel', 17, 'Sheep galore'),
-    (2, 1, 1, 'daniel', 15, 'this score does not make sense for catan'),
-    (3, 1, 2, 'daniel', 5, 'not going well'),
-    (4, 2, 1, 'jenny', 7, 'losing badly'),
-    (5, 2, 1, 'jenny', 7, 'losing badly'),
-    (6, 2, 2, 'jenny', 90, 'destroying daniel'),
-    (7, 2, 2, 'jenny', 90, 'destroying daniel'),
-    (8, 7, 1, 'fabian', 8, 'dont like catan'),
-    (9, 3, 3, 'willie', 100, 'got lots of clank treasures'),
-    (10, 3, 4, 'willie', 35, 'wonderful'),
-    (11, 8, 4, 'hugo', 17, 'kewl'),
-    (12, 8, 4, 'hugo', 17, 'kewl'),
-    (13, 8, 4, 'hugo', 17, 'kewl');
+    (14, 1, 1, 17, 'Sheep galore'),
+    (2, 1, 1, 15, 'this score does not make sense for catan'),
+    (3, 1, 2, 5, 'not going well'),
+    (4, 2, 1, 7, 'losing badly'),
+    (5, 2, 1, 7, 'losing badly'),
+    (6, 2, 2, 90, 'destroying daniel'),
+    (7, 2, 2, 90, 'destroying daniel'),
+    (8, 7, 1, 8, 'dont like catan'),
+    (9, 3, 3, 100, 'got lots of clank treasures'),
+    (10, 3, 4, 35, 'wonderful'),
+    (11, 8, 4, 17, 'kewl'),
+    (12, 8, 4, 17, 'kewl'),
+    (13, 8, 4, 17, 'kewl');
 
 INSERT INTO players_in_game (id, playerid, gameid)
 VALUES
@@ -57,7 +58,6 @@ VALUES
     (4, 2, 1),
     (5, 2, 2),
     (6, 2, 5),
-    (7, 7, 1),
     (8, 7, 2),
     (9, 7, 5);
 

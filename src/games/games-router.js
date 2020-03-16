@@ -10,7 +10,6 @@ gamesRouter
     .route('/')
     .get(requireAuth, (req, res, next) => {
         GamesService.getByUserId(req.app.get('db'), req.user.id)
-        // GamesService.getByUserId(req.app.get('db'), req.user.id)
             .then(games => {
                 console.log(games)
                 res.json(games)
