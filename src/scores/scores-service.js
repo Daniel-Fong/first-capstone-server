@@ -16,6 +16,14 @@ const scoresService = {
                 return rows[0]
             })
     },
+
+    deleteScoreById(db, id) {
+        console.log(id)
+        return db
+            .from('scores')
+            .where({ id })
+            .delete();
+    },
 }
 
 module.exports = scoresService;

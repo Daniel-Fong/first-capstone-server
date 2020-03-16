@@ -35,5 +35,19 @@ scoresRouter
 
 scoresRouter
     .route('/:score_id')
+    .delete(requireAuth, (req, res, next) => {
+        ScoresService.deleteScoreById(req.app.get('db'), req.params.score_id)
+            .then(score => {
+                if(!score) {
+                    return res.status(404).json({
+                        error: {message: 'score does not exist'}
+                    })
+                }
+            res
+            .status(204)
+            .end()
+            })
+            .catch(next)
+    })
 
 module.exports = scoresRouter
