@@ -22,7 +22,7 @@ const PlayersService = {
     deletePlayerById(db, id) {
         return db
             .from('players')
-            .where({ id })
+            .where('id', id)
             .delete();
     },
     insertPlayer(db, newPlayer) {

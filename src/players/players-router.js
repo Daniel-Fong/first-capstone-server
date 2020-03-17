@@ -30,8 +30,19 @@ playersRouter
                     .status(204)
                     .end()
             })
+            .catch(next)
     })
 
+playersRouter
+    .route('/')
+    .get(requireAuth, (req, res, next) => {
+        PlayersService.getPlayersByUserId(req.app.get('db'), req.user.id)
+        .then(players => {
+            return res 
+                .status(200)
+                .json(players)
+        })
+    })
     .post(requireAuth, jsonBodyParser, (req, res, next) => {
         const { name, notes } = req.body
         const userid = req.user.id
@@ -50,17 +61,6 @@ playersRouter
                     .json(player)
             })
         .catch(next)
-    })
-
-playersRouter
-    .route('/')
-    .get(requireAuth, (req, res, next) => {
-        PlayersService.getPlayersByUserId(req.app.get('db'), req.user.id)
-        .then(players => {
-            return res 
-                .status(200)
-                .json(players)
-        })
     })
 
 module.exports = playersRouter;
