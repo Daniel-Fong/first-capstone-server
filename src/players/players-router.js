@@ -33,7 +33,8 @@ playersRouter
     })
 
     .post(requireAuth, jsonBodyParser, (req, res, next) => {
-        const { userid, name, notes } = req.body
+        const { name, notes } = req.body
+        const userid = req.user.id
         const newPlayer = { userid, name, notes}
         if(!name) {
             return res

@@ -17,11 +17,10 @@ gamesRouter
             .catch(next)
     })
 
-    //refactor to get rid of userid, use req.user.id instead
     .post(jsonBodyParser, requireAuth, (req, res, next) => {
-        const { name, notes, date_modified } = req.body
+        const { name, notes } = req.body
         const userid = req.user.id
-        const newGame = { name, notes, date_modified, userid }
+        const newGame = { name, notes, userid }
 
         if(!name) {
             return res
@@ -40,7 +39,7 @@ gamesRouter
 gamesRouter
     .route('/:game_id')
     .get(requireAuth, (req, res, next) => {
-        GamesService.getById(req.app.get('db'))
+        GamesService.getById(req.app.get('db'), req.params.game_id)
             .then(game => {
                 res.json(game)
             })
