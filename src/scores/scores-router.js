@@ -18,7 +18,6 @@ scoresRouter
         .catch(next)
     })
     .post(requireAuth, jsonBodyParser, (req, res, next) => {
-        console.log(req.body)
         const { score, note } = req.body
         const playerid = req.params.player_id
         const gameid = req.params.game_id

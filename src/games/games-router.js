@@ -40,6 +40,11 @@ gamesRouter
     .get(requireAuth, (req, res, next) => {
         GamesService.getById(req.app.get('db'), req.params.game_id)
             .then(game => {
+                if(!game) {
+                    res
+                        .status(404)
+                        .end()
+                }
                 res.json(game)
             })
             .catch(next)
