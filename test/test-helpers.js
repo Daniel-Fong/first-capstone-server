@@ -24,13 +24,38 @@ function makeUsersArray() {
     ]
 }
 
+function makeGamesArray(user) {
+  return [
+
+  ]
+}
+
+function makePlayersArray() {
+  return [
+
+  ]
+}
+
+function makeScoresArray() {
+  return [
+
+  ]
+}
+
+function makePigArray() {
+  return [
+
+  ]
+}
+
 function cleanTables(db) {
     return db.raw(
       `TRUNCATE
         users,
         games,
         players,
-        scores
+        scores,
+        players_in_game
         RESTART IDENTITY CASCADE`
     )
   }
@@ -38,9 +63,10 @@ function cleanTables(db) {
   function makeSnapshotFixtures() {
     const testUsers = makeUsersArray()
     const testGames = makeGamesArray(testUsers)
-    const testPlayers = makePlayersArray(testUsers, testGames)
+    const testPlayers = makePlayersArray(testUsers)
     const testScores = makeScoresArray(testGames, testPlayers)
-    return { testUsers, testGames, testPlayers, testScores }
+    const testPIG = makePigArray(testPlayers, testGames)
+    return { testUsers, testGames, testPlayers, testScores, testPIG }
   }
 
   function seedUsers(db, users) {

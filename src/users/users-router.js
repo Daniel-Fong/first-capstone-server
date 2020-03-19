@@ -11,7 +11,9 @@ usersRouter
     .get((req, res, next) => {
         UsersService.getAllUsers(req.app.get('db'))
             .then(users => {
-                res.json(users)
+                res
+                    .status(200)
+                    .json(users)
             })
             .catch(next)
     })
@@ -38,6 +40,17 @@ usersRouter
                     .location(path.posix.join(req.originalUrl, `/${user.id}`))
                     .json(user)
             })
+    })
+
+usersRouter
+    .route('/user')
+    .get(requireAuth, (req, res, next) => {
+        UsersService.getById(req.app.get('db'), req.user.id)
+        .then(user => {
+            res
+                .status(200)
+                .json(user)
+        })
     })
 
 module.exports = usersRouter;

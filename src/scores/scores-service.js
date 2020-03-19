@@ -18,7 +18,6 @@ const scoresService = {
     },
 
     deleteScoreById(db, id) {
-        console.log(id)
         return db
             .from('scores')
             .where({ id })

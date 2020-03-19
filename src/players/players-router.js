@@ -56,10 +56,22 @@ playersRouter
         PlayersService.insertPlayer(req.app.get('db'), newPlayer)
             .then(player => {
                 res
-                    .status(200)
+                    .status(201)
                     .location(path.posix.join(req.originalUrl, `/${player.id}`))
                     .json(player)
             })
+        .catch(next)
+    })
+
+playersRouter
+    .route('/list/:game_id')
+    .get(requireAuth, (req, res, next) => {
+        PlayersService.getPlayersByNotInGame(req.app.get('db'), req.params.game_id)
+        .then(players => {
+            res
+                .status(200)
+                .json(players)
+        })
         .catch(next)
     })
 

@@ -33,8 +33,8 @@ const PlayersService = {
             .then(rows => {
                 return rows[0]
             })
-
     },
+    
 };
 
 module.exports = PlayersService;

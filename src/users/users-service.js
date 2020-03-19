@@ -6,9 +6,10 @@ const UsersService = {
     },
 
     getById(db, id) {
-        return UsersService.getAllUsers(db)
-            .where('user.id', id)
-            .select('*');
+        return db
+            .select('name')
+            .from('users as user')
+            .where('user.id', id);
     },
 
     insertUser(db, newUser) {
