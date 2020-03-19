@@ -28,7 +28,7 @@ describe('Games Endpoints', function() {
     afterEach('cleanup', () => helpers.cleanTables(db))
 
     describe(`Protected endpoints`, () => {
-        beforeEach('insert games', () => {
+        beforeEach('insert players', () => {
             helpers.makeSnapshotFixtures(
                 db, 
                 testUsers,
