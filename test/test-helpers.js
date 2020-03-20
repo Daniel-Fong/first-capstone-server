@@ -65,7 +65,7 @@ function makePigArray() {
       id: 1,
       playerid: 1,
       gameid: 1,
-    }
+    },
 
   ]
 }
@@ -117,6 +117,48 @@ function cleanTables(db) {
     }
   }
 
+  function makeExpectedScore(score) {
+  
+    return {
+      id: score.id,
+      score: score.score,
+      note: score.note,
+      playerid: score.playerid,
+      gameid: score.gameid
+    }
+  }
+
+  function makeExpectedPIG(pig) {
+  
+    return {
+      id: pig.id,
+      playerid: pig.playerid,
+      gameid: pig.gameid
+    }
+  }
+
+  function makeExpectedPlayer(player) {
+  
+    return {
+      id: player.id,
+      name: player.name,
+      notes: player.notes,
+      userid: player.userid
+    }
+  }
+
+  function makeExpectedPlayerForGame(player) {
+  
+    return {
+      id: player.id,
+      name: player.name,
+      notes: player.notes,
+      userid: player.userid,
+      gameid: 1,
+      playerid: player.id
+    }
+  }
+
   function seedSnapshotTables(db, users, games, players=[], scores=[], pig=[] ) {
     return db.transaction(async trx => {
       await seedUsers(trx, users)
@@ -165,5 +207,10 @@ function cleanTables(db) {
       makeScoresArray,
       makeAuthHeader,
       seedSnapshotTables,
-      makeExpectedGame
+      makeExpectedGame,
+      makeExpectedPlayer,
+      makeExpectedPlayerForGame,
+      makeExpectedScore,
+      makeExpectedPIG
+
   }

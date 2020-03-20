@@ -17,7 +17,7 @@ describe('Players Endpoints', function() {
     before('make knex instance', () => {
         db = knex({
             client: 'pg',
-            connection: process.env.Test_DB_URL,
+            connection: process.env.Test_DATABASE_URL,
         })
         app.set('db', db)
     })
@@ -27,7 +27,7 @@ describe('Players Endpoints', function() {
 
     afterEach('cleanup', () => helpers.cleanTables(db))
 
-    describe.only(`Protected endpoints`, () => {
+    describe(`Protected endpoints`, () => {
         beforeEach('insert games', () => {
             helpers.makeSnapshotFixtures(
                 db, 
@@ -41,10 +41,6 @@ describe('Players Endpoints', function() {
         const protectedEndpoints = [
             {
                 name: 'GET /api/players',
-                path: '/api/players'
-            },
-            {
-                name: 'POST /api/players',
                 path: '/api/players'
             },
             {
@@ -110,20 +106,20 @@ describe('Players Endpoints', function() {
         
             it('responds with 200 and all of the players', () => {
               const expectedPlayers = testPlayers.map(player =>
-                helpers.makeExpectedGame(player)
+                helpers.makeExpectedPlayer(player)
               )
               return supertest(app)
-                .get('/api/games')
+                .get('/api/players')
                 .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
-                .expect(200, expectedGames)
+                .expect(200, expectedPlayers)
             })
         })
         })
     })
 
-    describe(`POST /api/games`, () => {
-        context(`Given no game name`, () => {
-            beforeEach('insert games', () =>
+    describe(`POST /api/players`, () => {
+        context(`Given no player name`, () => {
+            beforeEach('insert players', () =>
               helpers.seedSnapshotTables(
                 db,
                 testUsers,
@@ -134,20 +130,20 @@ describe('Players Endpoints', function() {
               )
             )
             it('responds with 400 Bad Request', () => {
-                const namelessGame = {
+                const namelessPlayer = {
                     id: 1, 
                     name: null
                 }
                 return supertest(app)
-                .post('/api/games')
+                .post('/api/players')
                 .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
-                .send(namelessGame)
+                .send(namelessPlayer)
                 .expect(400)
             })
             
         })
-        context('given valid game data', () => {
-            beforeEach('insert games', () =>
+        context('given valid player data', () => {
+            beforeEach('insert players', () =>
               helpers.seedSnapshotTables(
                 db,
                 testUsers,
@@ -158,30 +154,28 @@ describe('Players Endpoints', function() {
               )
             )
             it('responds with 201 and new game', () => {
-            newGame = {
-                name: 'catan',
+            newPlayer = {
+                name: 'player',
                 notes: 'note',
-                date_modified: '2020-03-16T00:35:35.346Z',
                 userid: 1
             }
             return supertest(app)
-            .post('/api/games')
+            .post('/api/players')
             .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
-            .send(newGame)
+            .send(newPlayer)
             .expect(201)
             .expect(res => {
                 expect(res.body).to.have.property('id')
-                expect(res.body.name).to.eql(newGame.name)
-                expect(res.body.notes).to.eql(newGame.notes)
-                expect(res.body).to.have.property('date_modified')
+                expect(res.body.name).to.eql(newPlayer.name)
+                expect(res.body.notes).to.eql(newPlayer.notes)
                 expect(res.body).to.have.property('userid')
             })
         })
     })
     })
 
-    describe(`GET /api/games/:game_id`, () => {
-        context(`Given no game`, () => {
+    describe(`DELETE /api/players/player/:player_id`, () => {
+        context(`Given no player`, () => {
             before('insert users', () =>
               helpers.seedUsers(
                 db,
@@ -190,49 +184,13 @@ describe('Players Endpoints', function() {
             )
             it(`responds with 404 not found`, () => {
                 return supertest(app)
-                .get('/api/games/1')
-                .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
-                .expect(404)
-            })
-        context('Given the game exists', () => {
-            beforeEach('insert games', () =>
-              helpers.seedSnapshotTables(
-                db,
-                testUsers,
-                testGames,
-                testPlayers,
-                testScores,
-                testPIG
-              )
-            )
-            it('responds with 200 and the test game', () => {
-              const expectedGame = helpers.makeExpectedGame(testGames[0])
-              return supertest(app)
-                .get(`/api/games/${testGames[0].id}`)
-                .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
-                .expect(200, expectedGame)
-            })
-        })
-        })
-    })
-
-    describe(`DELETE /api/games/:game_id`, () => {
-        context(`Given no game`, () => {
-            before('insert users', () =>
-              helpers.seedUsers(
-                db,
-                testUsers
-              )
-            )
-            it(`responds with 404 not found`, () => {
-                return supertest(app)
-                .delete('/api/games/1')
+                .delete('/api/players/player/1')
                 .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
                 .expect(404)
             })
         })
-        context('Given the game exists', () => {
-            beforeEach('insert games', () =>
+        context('Given the player exists', () => {
+            beforeEach('insert players', () =>
               helpers.seedSnapshotTables(
                 db,
                 testUsers,
@@ -244,10 +202,51 @@ describe('Players Endpoints', function() {
             )
             it('responds with 204', () => {
               return supertest(app)
-                .delete(`/api/games/${testGames[0].id}`)
+                .delete(`/api/players/player/${testPlayers[0].id}`)
                 .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
                 .expect(204)
             })
         })
         })
+
+        describe(`GET /api/players/1`, () => {
+          context(`Given no players`, () => {
+              before('insert users', () =>
+                helpers.seedUsers(
+                  db,
+                  testUsers
+                )
+              )
+  
+              it(`responds with 200 and empty list`, () => {
+                  return supertest(app)
+                  .get('/api/players/1')
+                  .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
+                  .expect(200, [])
+              })
+          context('Given there are players in the database', () => {
+              beforeEach('insert players', () =>
+                helpers.seedSnapshotTables(
+                  db,
+                  testUsers,
+                  testGames,
+                  testPlayers,
+                  testScores,
+                  testPIG
+                )
+              )
+          
+              it('responds with 200 and all of the players', () => {
+                const expectedPlayers = testPlayers.map(player =>
+                  helpers.makeExpectedPlayerForGame(player)
+                )
+                console.log(expectedPlayers)
+                return supertest(app)
+                  .get('/api/players/1')
+                  .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
+                  .expect(200, expectedPlayers)
+              })
+          })
+          })
+      })
 })

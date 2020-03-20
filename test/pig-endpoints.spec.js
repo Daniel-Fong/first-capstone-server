@@ -3,7 +3,7 @@ const app = require('../src/app')
 const helpers = require('./test-helpers')
 require('dotenv').config()
 
-describe('Games Endpoints', function() {
+describe('PIG Endpoints', function() {
     let db
 
     const {
@@ -28,7 +28,7 @@ describe('Games Endpoints', function() {
     afterEach('cleanup', () => helpers.cleanTables(db))
 
     describe(`Protected endpoints`, () => {
-        beforeEach('insert players', () => {
+        beforeEach('insert pigs', () => {
             helpers.makeSnapshotFixtures(
                 db, 
                 testUsers,
@@ -40,12 +40,8 @@ describe('Games Endpoints', function() {
         })
         const protectedEndpoints = [
             {
-                name: 'GET /api/games',
-                path: '/api/games'
-            },
-            {
-                name: 'GET /api/games/:game_id',
-                path: '/api/games/1'
+                name: 'GET /api/pig/:game_id',
+                path: '/api/pig/1'
             },
         ]
         protectedEndpoints.forEach(endpoint => {
@@ -71,45 +67,6 @@ describe('Games Endpoints', function() {
                       .expect(401, { error: `Unauthorized request` })
                 })
             })
-        })
-    })
-    describe(`GET /api/games`, () => {
-        context(`Given no games`, () => {
-            before('insert users', () =>
-              helpers.seedUsers(
-                db,
-                testUsers
-              )
-            )
-
-            it(`responds with 200 and empty list`, () => {
-                return supertest(app)
-                .get('/api/games')
-                .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
-                .expect(200, [])
-            })
-        context('Given there are games in the database', () => {
-            beforeEach('insert games', () =>
-              helpers.seedSnapshotTables(
-                db,
-                testUsers,
-                testGames,
-                testPlayers,
-                testScores,
-                testPIG
-              )
-            )
-        
-            it('responds with 200 and all of the games', () => {
-              const expectedGames = testGames.map(game =>
-                helpers.makeExpectedGame(game)
-              )
-              return supertest(app)
-                .get('/api/games')
-                .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
-                .expect(200, expectedGames)
-            })
-        })
         })
     })
 
@@ -172,22 +129,9 @@ describe('Games Endpoints', function() {
     })
     })
 
-    describe(`GET /api/games/:game_id`, () => {
-        context(`Given no game`, () => {
-            before('insert users', () =>
-              helpers.seedUsers(
-                db,
-                testUsers
-              )
-            )
-            it(`responds with 404 not found`, () => {
-                return supertest(app)
-                .get('/api/games/1')
-                .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
-                .expect(404)
-            })
-        context('Given the game exists', () => {
-            beforeEach('insert games', () =>
+    describe(`GET /api/pig/:game_id`, () => {
+        context('Given the pig exists', () => {
+            beforeEach('insert pigs', () =>
               helpers.seedSnapshotTables(
                 db,
                 testUsers,
@@ -197,20 +141,19 @@ describe('Games Endpoints', function() {
                 testPIG
               )
             )
-            it('responds with 200 and the test game', () => {
-              const expectedGame = helpers.makeExpectedGame(testGames[0])
+            it('responds with 200 and the test pig', () => {
+              const expectedPIGs = testPIG.map(pig => helpers.makeExpectedPIG(pig))
               return supertest(app)
-                .get(`/api/games/${testGames[0].id}`)
+                .get(`/api/pig/${testPIG[0].gameid}`)
                 .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
-                .expect(200, expectedGame)
+                .expect(200, expectedPIGs)
             })
-        })
         })
     })
 
-    describe(`DELETE /api/games/:game_id`, () => {
-        context(`Given no game`, () => {
-            before('insert users', () =>
+    describe(`DELETE /api/pig/:game_id/:player_id`, () => {
+        context(`Given no pig`, () => {
+            before('insert pigs', () =>
               helpers.seedUsers(
                 db,
                 testUsers
@@ -218,13 +161,13 @@ describe('Games Endpoints', function() {
             )
             it(`responds with 404 not found`, () => {
                 return supertest(app)
-                .delete('/api/games/1')
+                .delete('/api/pig/1/1')
                 .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
                 .expect(404)
             })
         })
-        context('Given the game exists', () => {
-            beforeEach('insert games', () =>
+        context('Given the pig exists', () => {
+            beforeEach('insert pigs', () =>
               helpers.seedSnapshotTables(
                 db,
                 testUsers,
@@ -236,7 +179,7 @@ describe('Games Endpoints', function() {
             )
             it('responds with 204', () => {
               return supertest(app)
-                .delete(`/api/games/${testGames[0].id}`)
+                .delete(`/api/pig/${testPIG[0].gameid}/${testPIG[0].playerid}`)
                 .set('Authorization', helpers.makeAuthHeader(testUsers[0], process.env.JWT_SECRET))
                 .expect(204)
             })

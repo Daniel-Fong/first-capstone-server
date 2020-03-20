@@ -26,6 +26,11 @@ pigRouter
     .get(requireAuth, (req, res, next) => {
         PigService.getPIGByGameId(req.app.get('db'), req.params.game_id)
         .then(pig => {
+            if(!pig) {
+                return res
+                    .status(404)
+                    .end()
+            }
             return res 
                 .status(200)
                 .json(pig)

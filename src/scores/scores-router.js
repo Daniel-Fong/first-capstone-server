@@ -25,7 +25,7 @@ scoresRouter
         ScoresService.insertScore(req.app.get('db'), newScore)
             .then(score => {
                 res
-                    .status(200)
+                    .status(201)
                     .location(path.posix.join(req.originalUrl, `/${score.id}`))
                     .json(score)
             })
